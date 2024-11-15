@@ -1,7 +1,7 @@
 /*
 let fb = document.createElement("script");
 fb.type = "module";
-fb.src = "http://127.0.0.1:5500/leetcode%20cloud/index.js";
+fb.src = "https://omada15.github.io/leetcodeSave/index.js";
 document.body.appendChild(fb);
 */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
