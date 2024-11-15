@@ -38,7 +38,7 @@ let id = 16216695;
 let _data, func, prob, lang;
 
 document.addEventListener("keydown", function(e) {
-   if (e.ctrlKey && e.key == "S") {
+   if (e.ctrlKey && e.altKey && e.key === "s") {
       func = prompt("Which function:\n  [1] get \n  [2] write")
       prob = prompt("problem #:");
       lang = prompt("language  (cpp, csharp, python):");
