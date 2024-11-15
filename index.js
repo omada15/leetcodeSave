@@ -1,9 +1,11 @@
+/*
 let fb = document.createElement("script");
-fb.src = "https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js";
+fb.type = "module";
+fb.src = "http://127.0.0.1:5500/leetcode%20cloud/index.js";
 document.body.appendChild(fb);
-let fbs = document.createElement("script");
-fbs.src = "https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js";
-document.body.appendChild(fbs);
+*/
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 const firebaseConfig = {
    apiKey: "AIzaSyAWmBlPlhC83etmPAL7XG32yUAuxkj-FWw",
@@ -15,32 +17,49 @@ const firebaseConfig = {
    appId: "1:442626282192:web:405ed2c031b5ce41e204d5",
    measurementId: "G-24QQDVHP52"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
+var firebase = initializeApp(firebaseConfig);
+
+function objToString (obj) {
+    var str = '';
+    for (var p in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, p)) {
+            str += p + '::' + obj[p] + '\n';
+        }
+    }
+    return str;
+}
+
+function write(path, data) {
+   const db = getDatabase();
+   set(ref(db, path), data);
+}
 let id = 16216695;
-let func = prompt("Which function:\n  [1] get \n  [2] write")
-let prob = prompt("problem #:");
-let lang = prompt("language  (cpp, csharp, python):");
-let _data, _data_sn, _time, _time_sn, send, dbr;
-if (func = 2){
-   _data = localStorage.getItem(`${prob}_${id}_${lang}`)
-   _data_sn = `${prob}_${id}_${lang}`
-   _time = localStorage.getItem(`${prob}_${id}_${lang}-updated-time`)
-   _time_sn = `${prob}_${id}_${lang}-updated-time`
+let _data, func, prob, lang;
 
-   send = {
-      data: _data,
-      data_sn: _data_sn,
-      time: _time,
-      time_sn: _time_sn
+document.addEventListener("keydown", function(e) {
+   if (e.ctrlKey && e.key == "S") {
+      func = prompt("Which function:\n  [1] get \n  [2] write")
+      prob = prompt("problem #:");
+      lang = prompt("language  (cpp, csharp, python):");
+      if (func == 2){
+         _data = localStorage.getItem(`${prob}_${id}_${lang}`);
+
+         write(`data/${prob}-${lang}`, {
+            data: _data,
+         });
+         alert("sent")
+      } else if (func == 1) {
+         const dbRef = ref(getDatabase());
+         get(child(dbRef, `data/${prob}-${lang}`)).then((snapshot) => {
+            console.log(objToString(snapshot.val()).slice(6));
+            if (snapshot.exists()) {
+               localStorage.setItem(`${prob}_${id}_${lang}`, objToString(snapshot.val()).slice(6))
+               localStorage.setItem(`${prob}_${id}_${lang}-update-time`, Date.now());
+            } else {
+               alert("No data")
+            }
+         });
+      }
    }
-   dbr = db.ref(`data/${prob}-${lang}`)
-   dbr.set(send).then(() => {
-      console.log('Data sent successfully!');
-   })
-   .catch((error) => {
-      console.error('Error sending data:', error);
-   });
-
-} else if (func = 1) {console.log("ad")}
+});
