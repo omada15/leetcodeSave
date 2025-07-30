@@ -1,21 +1,8 @@
-/*
-let fb = document.createElement("script");
-fb.type = "module";
-fb.src = "https://omada15.github.io/leetcodeSave/index.js";
-document.body.appendChild(fb);
-*/
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 const firebaseConfig = {
-   apiKey: "AIzaSyAWmBlPlhC83etmPAL7XG32yUAuxkj-FWw",
-   authDomain: "leetcode-save.firebaseapp.com",
-   databaseURL: "https://leetcode-save-default-rtdb.firebaseio.com",
-   projectId: "leetcode-save",
-   storageBucket: "leetcode-save.firebasestorage.app",
-   messagingSenderId: "442626282192",
-   appId: "1:442626282192:web:405ed2c031b5ce41e204d5",
-   measurementId: "G-24QQDVHP52"
+   
 };
 
 var firebase = initializeApp(firebaseConfig);
